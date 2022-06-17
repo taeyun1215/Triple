@@ -15,4 +15,8 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long UserId;
+
+    @Column(nullable = false)
+    private Integer Mileage; // 마일리지
+
 }

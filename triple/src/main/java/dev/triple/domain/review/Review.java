@@ -1,6 +1,7 @@
 package dev.triple.domain.review;
 
-import dev.triple.domain.review.constant.Type;
+import dev.triple.domain.review.constant.ReviewAction;
+import dev.triple.domain.review.constant.ReviewType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,10 +21,10 @@ public class Review {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
-    private Type type;
+    private ReviewType type;
 
     @Column(length = 10, nullable = false)
-    private String action;
+    private ReviewAction action;
 
     @Lob
     @Column(nullable = false)
