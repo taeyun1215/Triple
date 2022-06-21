@@ -1,5 +1,13 @@
 package dev.triple.web.adminreview;
 
+import dev.triple.domain.review.Review;
+import dev.triple.domain.review.ReviewService;
+import dev.triple.domain.review.constant.ReviewAction;
+import dev.triple.domain.review.constant.ReviewPointType;
+import dev.triple.domain.reviewEventHistory.ReviewEventHistory;
+import dev.triple.domain.reviewEventHistory.ReviewEventHistoryService;
+import dev.triple.web.adminreview.dto.ReviewEventDto;
+import dev.triple.web.adminreview.dto.ReviewEventHistoryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,6 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ReviewEventService {
+
+    private final ReviewService reviewService;
+    private final ReviewEventHistoryService reviewEventHistoryService;
 
     public void event(ReviewEventDto dto) {
         switch (dto.getAction()) {
@@ -27,6 +38,14 @@ public class ReviewEventService {
 
     /* 리뷰 생성 */
     public void addEvent(ReviewEventDto dto) {
+
+        if (dto.getContent() != null) {
+            Review review = dto.toEntity();
+            ReviewEventHistory reviewEventHistory = ReviewEventHistoryDto.toEntity(ReviewAction.ADD, ReviewPointType.CONTENT, review.getUserId());
+            reviewEventHistoryService.recordReviewEventHistory(reviewEventHistory);
+
+            reviewService.save(review);
+        }
 
     }
 

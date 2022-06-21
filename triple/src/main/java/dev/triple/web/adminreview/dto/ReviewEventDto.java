@@ -1,5 +1,6 @@
-package dev.triple.web.adminreview;
+package dev.triple.web.adminreview.dto;
 
+import dev.triple.domain.review.Review;
 import dev.triple.domain.review.constant.ReviewAction;
 import dev.triple.domain.review.constant.ReviewType;
 import lombok.Getter;
@@ -23,4 +24,16 @@ public class ReviewEventDto {
     private String userId;
 
     private String placeId;
+
+    public Review toEntity() {
+        return Review.builder()
+                .type(type)
+                .action(action)
+                .content(content)
+                .attachedPhotoIds(attachedPhotoIds)
+                .userId(userId)
+                .placeId(placeId)
+                .build();
+    }
+
 }

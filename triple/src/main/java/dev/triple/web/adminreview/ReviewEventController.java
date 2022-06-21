@@ -1,5 +1,6 @@
 package dev.triple.web.adminreview;
 
+import dev.triple.web.adminreview.dto.ReviewEventDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
