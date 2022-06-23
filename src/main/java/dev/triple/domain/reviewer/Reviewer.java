@@ -21,16 +21,12 @@ public class Reviewer {
     private String userId;
 
     @Column(nullable = false)
-    private Integer mileage = 0; // 마일리지
+    private Integer mileage; // 마일리지
 
     @Builder
     public Reviewer(String userId, Integer mileage) {
         this.userId = userId;
         this.mileage = mileage;
-    }
-
-    public void addMileage(Integer mileage) {
-        this.mileage += mileage;
     }
 
 }

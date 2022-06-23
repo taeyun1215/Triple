@@ -11,8 +11,7 @@ public class ReviewEventHistoryService {
 
     private final ReviewEventHistoryRepository reviewEventHistoryRepository;
 
-    public ReviewEventHistory recordReviewEventHistory(ReviewEventHistory reviewEventHistory) {
+    public void recordReviewEventHistory(ReviewEventHistory reviewEventHistory) {
         reviewEventHistoryRepository.save(reviewEventHistory);
-        return reviewEventHistory;
     }
 }
