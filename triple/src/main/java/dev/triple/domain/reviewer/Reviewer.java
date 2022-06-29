@@ -29,8 +29,4 @@ public class Reviewer {
         this.mileage = mileage;
     }
 
-    public void addMileage(Integer mileage) {
-        this.mileage += mileage;
-    }
-
 }

@@ -7,6 +7,7 @@ import dev.triple.domain.review.constant.ReviewPointType;
 import dev.triple.domain.reviewEventHistory.ReviewEventHistory;
 import dev.triple.domain.reviewEventHistory.ReviewEventHistoryService;
 import dev.triple.domain.reviewer.Reviewer;
+import dev.triple.domain.reviewer.ReviewerService;
 import dev.triple.web.adminreview.dto.ReviewEventDto;
 import dev.triple.web.adminreview.dto.ReviewEventHistoryDto;
 import dev.triple.web.adminreview.dto.ReviewerDto;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReviewEventService {
 
     private final ReviewService reviewService;
+    private final ReviewerService reviewerService;
     private final ReviewEventHistoryService reviewEventHistoryService;
 
     public void event(ReviewEventDto dto) {
@@ -40,19 +42,18 @@ public class ReviewEventService {
 
     /* 리뷰 생성 */
     public void addEvent(ReviewEventDto dto) {
+        int curPoint = 0;
 
-        if (dto.getContent() != null) {
-            Review review = dto.toEntity();
+        Review review = dto.toEntity();
 
-            // 리뷰마다 로그 저장
-            ReviewEventHistory reviewEventHistory = ReviewEventHistoryDto.toEntity(ReviewAction.ADD, ReviewPointType.CONTENT, review.getUserId());
-            ReviewEventHistory saveReviewEventHistory = reviewEventHistoryService.recordReviewEventHistory(reviewEventHistory);
+        // 리뷰마다 로그 저장
+        ReviewEventHistory reviewEventHistory = ReviewEventHistoryDto.toEntity(ReviewAction.ADD, ReviewPointType.CONTENT, review.getUserId());
+        ReviewEventHistory saveReviewEventHistory = reviewEventHistoryService.recordReviewEventHistory(reviewEventHistory);
 
-            // 리뷰마다 포인트 추가
-            Reviewer reviewer = ReviewerDto.toEntity(review.getUserId(), 1);
+        // 리뷰 포인트 추가
+        curPoint = reviewerService.calculatePoint(review);
 
-            reviewService.save(review);
-        }
+        reviewService.save(review);
 
     }
 
